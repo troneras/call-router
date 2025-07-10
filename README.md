@@ -103,8 +103,8 @@ Use these connection details in DBbeaver:
 
 - Drizzle creates a `__drizzle_migrations` table in your database
 - Each migration gets a unique timestamp-based filename 
-- The SQL files in `src/db/migrations/` are committed to git
-- The `meta/` folder is ignored (contains local metadata only)
+- Both SQL files and meta files in `src/db/migrations/` are committed to git
+- The meta files contain migration metadata needed for deployment
 - Production tracks which migrations have been applied in the database table
 
 ## Project Structure
