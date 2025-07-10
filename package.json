@@ -1,0 +1,19 @@
+{
+  "name": "call-router",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "fastify": "^5.4.0"
+  },
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun --hot index.ts"
+  }
+}
