@@ -23,6 +23,12 @@ src/
 │   ├── external/          # External plugins (database, etc.)
 │   └── app/               # Application-specific plugins
 ├── routes/                # Route handlers (auto-loaded)
+│   ├── api/               # API endpoints
+│   │   ├── calls/         # Call management routes
+│   │   ├── users/         # User management routes
+│   │   └── redirections/  # Call redirection routes
+│   ├── health/            # Health check routes
+│   └── home.ts            # Home page route
 └── db/                    # Database configuration and migrations
 test/                      # Test files
 ```

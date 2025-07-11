@@ -61,10 +61,11 @@ Tests are automatically discovered with `.test`, `_test_`, `.spec` or `_spec_` i
 
 ## API Endpoints
 
-- `GET /` - Hello world
+- `GET /` - Home page
 - `GET /health` - Health check with database connection
-- `GET /users` - List all users
-- `GET /calls` - List all calls
+- `GET /api/users` - List all users
+- `GET /api/calls` - List all calls
+- `GET /api/redirections` - List all redirections
 
 ## Database Management
 
@@ -130,6 +131,12 @@ call-router/
 │   │   ├── external/      # External plugins (database, etc.)
 │   │   └── app/           # Application-specific plugins
 │   ├── routes/            # Route handlers (auto-loaded)
+│   │   ├── api/           # API endpoints
+│   │   │   ├── calls/     # Call management routes
+│   │   │   ├── users/     # User management routes
+│   │   │   └── redirections/ # Call redirection routes
+│   │   ├── health/        # Health check routes
+│   │   └── home.ts        # Home page route
 │   └── db/
 │       ├── config.ts      # Database connection
 │       ├── schema.ts      # Database schema
