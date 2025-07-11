@@ -2,8 +2,9 @@ import Fastify from "fastify";
 import fp from "fastify-plugin";
 import closeWithGrace from "close-with-grace";
 import serviceApp from "./app";
+import { loadConfig } from "./lib/config";
 
-function getLoggerOptions() {
+function getLoggerOptions(logLevel: string) {
   if (process.stdout.isTTY) {
     return {
       level: "info",
@@ -17,24 +18,26 @@ function getLoggerOptions() {
     };
   }
 
-  return { level: process.env.LOG_LEVEL ?? "info" };
+  return { level: logLevel };
 }
 
-const app = Fastify({
-  logger: getLoggerOptions(),
-  ajv: {
-    customOptions: {
-      coerceTypes: "array",
-      removeAdditional: "all",
-    },
-  },
-});
-
 async function init() {
+  const config = await loadConfig();
+  
+  const app = Fastify({
+    logger: getLoggerOptions(config.LOG_LEVEL || "info"),
+    ajv: {
+      customOptions: {
+        coerceTypes: "array",
+        removeAdditional: "all",
+      },
+    },
+  });
+
   app.register(fp(serviceApp));
 
   closeWithGrace(
-    { delay: Number(process.env.FASTIFY_CLOSE_GRACE_DELAY) || 500 },
+    { delay: Number(config.FASTIFY_CLOSE_GRACE_DELAY) || 500 },
     async ({ err }) => {
       if (err != null) {
         app.log.error(err);
@@ -47,7 +50,7 @@ async function init() {
 
   try {
     await app.listen({
-      port: Number(process.env.PORT) || 3000,
+      port: Number(config.PORT) || 3000,
       host: '0.0.0.0'
     });
   } catch (err) {

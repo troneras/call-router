@@ -1,5 +1,6 @@
 import fastifyAutoload from "@fastify/autoload";
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
+import envPlugin from "./plugins/external/env";
 
 const __dirname = import.meta.dirname;
 
@@ -18,12 +19,18 @@ export default async function serviceApp(
 ) {
   delete opts.skipOverride;
 
+  // Register env plugin first to make config available to all other plugins
+  // Skip if config is already decorated (e.g., in tests)
+  if (!fastify.hasDecorator('config')) {
+    await fastify.register(envPlugin, opts);
+  }
+
   // Load external plugins first (database, etc.)
   await fastify.register(fastifyAutoload, {
     dir: `${__dirname}/plugins/external`,
     options: { ...opts },
     forceESM: true,
-    matchFilter: (path) => path.endsWith('.ts') || path.endsWith('.js'),
+    matchFilter: (path) => (path.endsWith('.ts') || path.endsWith('.js')) && !path.includes('env.ts'),
   });
 
   // Load application plugins

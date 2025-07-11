@@ -1,11 +1,18 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 
+// Create a factory function that takes the connection string
+export function createDb(connectionString: string) {
+  const queryClient = postgres(connectionString)
+  return drizzle(queryClient)
+}
+
+// Create a factory function for migration client
+export function createMigrationClient(connectionString: string) {
+  return postgres(connectionString, { max: 1 })
+}
+
+// Keep the old export for compatibility during migration
 const connectionString = process.env.DATABASE_URL || 'postgresql://dev:dev123@localhost:5432/call_router_dev'
-
-// for migrations
 export const migrationClient = postgres(connectionString, { max: 1 })
-
-// for query purposes
-const queryClient = postgres(connectionString)
-export const db = drizzle(queryClient)
+export const db = drizzle(postgres(connectionString))

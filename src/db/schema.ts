@@ -28,9 +28,23 @@ export const redirections = pgTable('redirections', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
+export const webhookEvents = pgTable('webhook_events', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  eventType: varchar('event_type', { length: 100 }).notNull(),
+  callControlId: varchar('call_control_id', { length: 100 }),
+  callSessionId: varchar('call_session_id', { length: 100 }),
+  payload: jsonb('payload').notNull(),
+  processed: varchar('processed', { length: 10 }).notNull().default('false'),
+  processedAt: timestamp('processed_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 export type Call = typeof calls.$inferSelect
 export type NewCall = typeof calls.$inferInsert
 export type Redirection = typeof redirections.$inferSelect
 export type NewRedirection = typeof redirections.$inferInsert
+export type WebhookEvent = typeof webhookEvents.$inferSelect
+export type NewWebhookEvent = typeof webhookEvents.$inferInsert
