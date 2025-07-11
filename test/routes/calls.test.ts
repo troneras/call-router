@@ -16,7 +16,7 @@ describe("Calls API", () => {
   it("Should handle calls route", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/calls",
+      url: "/api/calls",
     });
 
     // Should return 200, 500, or 404 (if routes are not loaded)
@@ -38,7 +38,7 @@ describe("Calls API", () => {
   it("Should handle database connection errors gracefully", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/calls",
+      url: "/api/calls",
     });
 
     // If database is not connected, should return 500 or 404
