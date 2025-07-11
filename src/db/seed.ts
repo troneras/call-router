@@ -60,8 +60,12 @@ export async function seed() {
   console.log('Database seeded successfully!')
 }
 
+async function main() {
+  await seed()
+  process.exit(0)
+}
 
-seed().catch((err) => {
+main().catch((err) => {
   console.error('Seeding failed!')
   console.error(err)
   process.exit(1)
