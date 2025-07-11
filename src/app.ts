@@ -23,6 +23,7 @@ export default async function serviceApp(
     dir: `${__dirname}/plugins/external`,
     options: { ...opts },
     forceESM: true,
+    matchFilter: (path) => path.endsWith('.ts') || path.endsWith('.js'),
   });
 
   // Load application plugins
@@ -30,6 +31,7 @@ export default async function serviceApp(
     dir: `${__dirname}/plugins/app`,
     options: { ...opts },
     forceESM: true,
+    matchFilter: (path) => path.endsWith('.ts') || path.endsWith('.js'),
   });
 
   // Load routes
@@ -39,6 +41,7 @@ export default async function serviceApp(
     cascadeHooks: true,
     options: { ...opts },
     forceESM: true,
+    matchFilter: (path) => path.endsWith('.ts') || path.endsWith('.js'),
   });
 
   // Global error handler

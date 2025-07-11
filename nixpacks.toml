@@ -6,3 +6,6 @@ cmds = ['bun install']
 
 [phases.start]
 cmd = 'bun run railway'
+
+[variables]
+BUN_RUNTIME = 'bun'
