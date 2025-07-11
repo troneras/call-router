@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import fp from "fastify-plugin";
 import closeWithGrace from "close-with-grace";
-import serviceApp from "./app.js";
+import serviceApp from "./app";
 
 function getLoggerOptions() {
   if (process.stdout.isTTY) {

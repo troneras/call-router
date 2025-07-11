@@ -9,3 +9,4 @@ cmd = 'bun run railway'
 
 [variables]
 BUN_RUNTIME = 'bun'
+FASTIFY_AUTOLOAD_TYPESCRIPT = '1'
