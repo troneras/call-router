@@ -1,7 +1,7 @@
 import { db } from './config'
 import { users, calls, redirections } from './schema'
 
-async function main() {
+export async function seed() {
   console.log('Seeding database...')
 
   // Create sample users
@@ -58,12 +58,14 @@ async function main() {
 
   console.log(`Created ${spainRedirections.length} redirections for Spain`)
   console.log('Database seeded successfully!')
-
-  process.exit(0)
 }
 
-main().catch((err) => {
+
+seed().catch((err) => {
   console.error('Seeding failed!')
   console.error(err)
   process.exit(1)
 })
+  .finally(() => {
+    process.exit(0);
+  });
