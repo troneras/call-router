@@ -1,25 +1,30 @@
 {
   "name": "call-router",
-  "module": "index.ts",
+  "module": "src/server.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^24.0.13",
     "drizzle-kit": "^0.31.4",
+    "pino-pretty": "^13.0.0",
     "ts-node": "^10.9.2"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "@fastify/autoload": "^6.3.1",
+    "close-with-grace": "^2.2.0",
     "drizzle-orm": "^0.44.2",
     "fastify": "^5.4.0",
+    "fastify-plugin": "^5.0.1",
     "postgres": "^3.4.7"
   },
   "scripts": {
-    "start": "bun run index.ts",
-    "dev": "bun --hot index.ts",
+    "start": "bun run src/server.ts",
+    "dev": "bun --hot src/server.ts",
+    "test": "bun test",
     "railway": "chmod +x railway.sh && ./railway.sh",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",

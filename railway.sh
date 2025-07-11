@@ -11,7 +11,7 @@ if ! command -v bun &> /dev/null; then
     
     # Start the application
     echo "Starting application..."
-    node --loader ts-node/esm index.ts
+    node --loader ts-node/esm src/server.ts
 else
     echo "Using Bun runtime..."
     # Run database migrations

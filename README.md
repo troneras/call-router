@@ -1,13 +1,16 @@
 # Call Router API
 
-A Fastify-based API for managing calls with PostgreSQL database and Railway deployment.
+A modern Fastify-based API for managing calls with PostgreSQL database and Railway deployment, following best practices with a plugin-based architecture.
 
 ## Features
 
-- **Fastify**: Fast and low overhead web framework
+- **Fastify**: Fast and low overhead web framework with plugin architecture
 - **PostgreSQL**: Robust relational database
 - **Drizzle ORM**: Type-safe database operations
 - **Bun**: Fast JavaScript runtime and package manager
+- **Plugin Architecture**: Organized external and application plugins
+- **Auto-loading Routes**: Routes automatically loaded from file system
+- **Comprehensive Testing**: HTTP injection testing with Bun
 - **Railway**: Easy deployment with automatic migrations
 
 ## Development Setup
@@ -46,6 +49,15 @@ A Fastify-based API for managing calls with PostgreSQL database and Railway depl
    ```
 
 The API will be available at `http://localhost:3000`
+
+## Testing
+
+Run the test suite:
+```bash
+bun test
+```
+
+Tests are automatically discovered with `.test`, `_test_`, `.spec` or `_spec_` in the filename.
 
 ## API Endpoints
 
@@ -112,18 +124,34 @@ Use these connection details in DBbeaver:
 ```
 call-router/
 ├── src/
+│   ├── server.ts          # Server startup code
+│   ├── app.ts             # Application logic
+│   ├── plugins/
+│   │   ├── external/      # External plugins (database, etc.)
+│   │   └── app/           # Application-specific plugins
+│   ├── routes/            # Route handlers (auto-loaded)
 │   └── db/
 │       ├── config.ts      # Database connection
 │       ├── schema.ts      # Database schema
 │       ├── migrate.ts     # Migration runner
 │       ├── seed.ts        # Database seeder
 │       └── migrations/    # Generated migrations
+├── test/                  # Test files
 ├── docker-compose.yml     # Local PostgreSQL
 ├── drizzle.config.ts      # Drizzle configuration
 ├── railway.sh            # Railway deployment script
-├── index.ts              # Main application
 └── .env                  # Environment variables
 ```
+
+## Architecture
+
+This project follows Fastify best practices with:
+
+- **Separation of Concerns**: Server startup (`server.ts`) separate from application logic (`app.ts`)
+- **Plugin Architecture**: External plugins (database, etc.) and application plugins
+- **Auto-loading**: Routes and plugins are automatically loaded from the file system
+- **Type Safety**: Full TypeScript support throughout
+- **Testing**: Comprehensive test suite with HTTP injection testing
 
 ## Environment Variables
 

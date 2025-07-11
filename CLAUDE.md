@@ -1,5 +1,7 @@
 ---
 
+# Call Router API - Claude Instructions
+
 Default to using Bun instead of Node.js.
 
 - Use `bun <file>` instead of `node <file>` or `ts-node <file>`
@@ -8,6 +10,30 @@ Default to using Bun instead of Node.js.
 - Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
 - Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
 - Bun automatically loads .env, so don't use dotenv.
+
+## Project Structure
+
+This is a Fastify-based API following best practices:
+
+```
+src/
+├── server.ts              # Server startup code
+├── app.ts                 # Application logic
+├── plugins/
+│   ├── external/          # External plugins (database, etc.)
+│   └── app/               # Application-specific plugins
+├── routes/                # Route handlers (auto-loaded)
+└── db/                    # Database configuration and migrations
+test/                      # Test files
+```
+
+## Development Commands
+
+- `bun run dev` - Start development server with hot reload
+- `bun run start` - Start production server
+- `bun test` - Run tests
+- `bun run db:migrate` - Run database migrations
+- `bun run db:seed` - Seed database with sample data
 
 ## APIs
 
@@ -21,15 +47,34 @@ Default to using Bun instead of Node.js.
 
 ## Testing
 
-Use `bun test` to run tests.
+Use `bun test` to run tests. Tests are automatically discovered with `.test`, `_test_`, `.spec` or `_spec_` in the filename.
 
-```ts#index.test.ts
+```ts#test/app.spec.ts
 import { test, expect } from "bun:test";
+import build from "./build.js";
 
-test("hello world", () => {
-  expect(1).toBe(1);
+test("requests the \"/\" route", async () => {
+  const app = build();
+
+  const response = await app.inject({
+    method: "GET",
+    url: "/",
+  });
+
+  expect(response.statusCode).toBe(200);
 });
 ```
+
+Test structure follows Fastify best practices with a build helper function.
+
+## Fastify Architecture
+
+This project uses Fastify with:
+- **Plugin-based architecture** - External and app plugins
+- **Auto-loading routes** - Routes are automatically loaded from `src/routes/`
+- **Type safety** - Full TypeScript support
+- **Database integration** - Drizzle ORM with PostgreSQL
+- **Comprehensive testing** - HTTP injection testing with Bun
 
 ## Frontend
 

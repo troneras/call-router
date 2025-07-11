@@ -1,9 +1,9 @@
 import { db } from './config'
-import { users, calls } from './schema'
+import { users, calls, redirections } from './schema'
 
 async function main() {
   console.log('Seeding database...')
-  
+
   // Create sample users
   const sampleUsers = await db.insert(users).values([
     {
@@ -19,9 +19,9 @@ async function main() {
   if (!sampleUsers || sampleUsers.length === 0 || !sampleUsers[0] || !sampleUsers[1]) {
     throw new Error('Failed to create sample users')
   }
-  
+
   console.log(`Created ${sampleUsers.length} users`)
-  
+
   // Create sample calls
   const sampleCalls = await db.insert(calls).values([
     {
@@ -37,10 +37,28 @@ async function main() {
       metadata: { priority: 'high' },
     },
   ]).returning()
-  
+
   console.log(`Created ${sampleCalls.length} calls`)
+
+  // Create redirections for Spain
+  const spainRedirections = await db.insert(redirections).values([
+    {
+      countryCode: 'ES',
+      countryName: 'Spain',
+      redirectNumber: '+34941710723',
+      isActive: 'true',
+    },
+    {
+      countryCode: 'ES',
+      countryName: 'Spain',
+      redirectNumber: '+34941710717',
+      isActive: 'true',
+    },
+  ]).returning()
+
+  console.log(`Created ${spainRedirections.length} redirections for Spain`)
   console.log('Database seeded successfully!')
-  
+
   process.exit(0)
 }
 
