@@ -17,17 +17,19 @@ export default async function serviceApp(
   opts: FastifyPluginOptions
 ) {
   delete opts.skipOverride;
-  
+
   // Load external plugins first (database, etc.)
   await fastify.register(fastifyAutoload, {
     dir: `${__dirname}/plugins/external`,
     options: { ...opts },
+    forceESM: true,
   });
 
   // Load application plugins
   fastify.register(fastifyAutoload, {
     dir: `${__dirname}/plugins/app`,
     options: { ...opts },
+    forceESM: true,
   });
 
   // Load routes
@@ -36,6 +38,7 @@ export default async function serviceApp(
     autoHooks: true,
     cascadeHooks: true,
     options: { ...opts },
+    forceESM: true,
   });
 
   // Global error handler
