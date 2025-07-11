@@ -22,7 +22,7 @@
     "postgres": "^3.4.7"
   },
   "scripts": {
-    "start": "bun run src/server.ts",
+    "start": "bun --bun run src/server.ts",
     "dev": "bun --hot src/server.ts",
     "test": "bun test",
     "railway": "chmod +x railway.sh && ./railway.sh",

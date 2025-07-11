@@ -11,6 +11,10 @@ declare module "fastify" {
 export default fp(
   async (fastify: FastifyInstance) => {
     fastify.decorate("db", db);
+
+    fastify.addHook("onClose", async (instance) => {
+      await instance.db.$client.end();
+    });
   },
   { name: "database" }
 );
