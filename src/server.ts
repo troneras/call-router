@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import fp from "fastify-plugin";
 import closeWithGrace from "close-with-grace";
-import serviceApp from "./app.js";
+import serviceApp from "./app";
 
 function getLoggerOptions() {
   if (process.stdout.isTTY) {
@@ -34,7 +34,7 @@ async function init() {
   app.register(fp(serviceApp));
 
   closeWithGrace(
-    { delay: Number(process.env.FASTIFY_CLOSE_GRACE_DELAY) ?? 500 },
+    { delay: Number(process.env.FASTIFY_CLOSE_GRACE_DELAY) || 500 },
     async ({ err }) => {
       if (err != null) {
         app.log.error(err);
@@ -46,9 +46,9 @@ async function init() {
   await app.ready();
 
   try {
-    await app.listen({ 
-      port: Number(process.env.PORT) || 3000, 
-      host: '0.0.0.0' 
+    await app.listen({
+      port: Number(process.env.PORT) || 3000,
+      host: '0.0.0.0'
     });
   } catch (err) {
     app.log.error(err);
